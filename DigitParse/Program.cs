@@ -16,96 +16,16 @@ namespace DigitParse
             double tenth = Math.Round(digit % digitstart, 2);
             Console.WriteLine("{0} and {1}", digitstart, tenth);
             double tens = digitstart % 100;
-            Console.WriteLine($"This ones: {tens}");
+            Console.WriteLine($"This tens: {tens}");
             string onesString = null;
             string tensString = null;
             string handredsString = null;
-            if (tens < 10)
-                onesString = stringParse(tens);
-            else
-                if (tens < 20)
-                {
-                    switch (tens)
-                        {
-                        case 10:
-                            onesString = "десять";
-                            break;
-                        case 11:
-                            onesString = "одинадцать";
-                            break;
-                        case 12:
-                            onesString = "двенадцать";
-                            break;
-                        case 13:
-                            onesString = "тринадцать";
-                            break;
-                        case 14:
-                            onesString = "четырнадцать";
-                            break;
-                        case 15:
-                            onesString = "пятнадцать";
-                            break;
-                        case 16:
-                            onesString = "шестнадцать";
-                            break;
-                        case 17:
-                            onesString = "семнадцать";
-                            break;
-                        case 18:
-                            onesString = "восемнадцать";
-                            break;
-                        case 19:
-                            onesString = "девятнадцать";
-                            break;
-                        case 20:
-                            onesString = "двадцать";
-                            break;
-                        default:
-                            onesString = null;
-                            break;
-                    }
-                }
-        else 
-        {
-                double ones = tens % 10;
-                tens = (tens - ones);
-                onesString = stringParse(ones);
-                switch (tens)
-                {
-                    case 20:
-                        tensString = "двадцать";
-                        break;
-                    case 30:
-                        tensString = "тридцать";
-                        break;
-                    case 40:
-                        tensString = "сорок";
-                        break;
-                    case 50:
-                        tensString = "пятьдесят";
-                        break;
-                    case 60:
-                        tensString = "шестьдесят";
-                        break;
-                    case 70:
-                        tensString = "семьдесят";
-                        break;
-                    case 80:
-                        tensString = "восемдесят";
-                        break;
-                    case 90:
-                        tensString = "девяносто";
-                        break;
-                    default:
-                        tensString = null;
-                        break;
-                }
-            }
+            tensString = tensStringParse(tens);
             Console.WriteLine($"This tensString: {tensString}; This onesString: {onesString}");
             Console.ReadKey();
         }
 
-        static string stringParse(double toParse)
+        static string onesStringParse(double toParse)
         {
             string stringResult = null;
             switch (toParse)
@@ -140,6 +60,95 @@ namespace DigitParse
                 default:
                     stringResult = null;
                     break;
+            }
+            return stringResult;
+        }
+        static string tensStringParse(double toParse)
+        {
+            string stringResult = null;
+            string stringTenthResult = null;
+            string stringOnesResult = null;
+            if (toParse < 10)
+                stringResult = onesStringParse(toParse);
+            else
+                if (toParse < 20)
+            {
+                switch (toParse)
+                {
+                    case 10:
+                        stringResult = "десять";
+                        break;
+                    case 11:
+                        stringResult = "одинадцать";
+                        break;
+                    case 12:
+                        stringResult = "двенадцать";
+                        break;
+                    case 13:
+                        stringResult = "тринадцать";
+                        break;
+                    case 14:
+                        stringResult = "четырнадцать";
+                        break;
+                    case 15:
+                        stringResult = "пятнадцать";
+                        break;
+                    case 16:
+                        stringResult = "шестнадцать";
+                        break;
+                    case 17:
+                        stringResult = "семнадцать";
+                        break;
+                    case 18:
+                        stringResult = "восемнадцать";
+                        break;
+                    case 19:
+                        stringResult = "девятнадцать";
+                        break;
+                    case 20:
+                        stringResult = "двадцать";
+                        break;
+                    default:
+                        stringResult = null;
+                        break;
+                }
+            }
+            else
+            {
+                double ones = toParse % 10;
+                double tens = (toParse - ones);
+                stringOnesResult = onesStringParse(ones);
+                switch (tens)
+                {
+                    case 20:
+                        stringTenthResult = "двадцать";
+                        break;
+                    case 30:
+                        stringTenthResult = "тридцать";
+                        break;
+                    case 40:
+                        stringTenthResult = "сорок";
+                        break;
+                    case 50:
+                        stringTenthResult = "пятьдесят";
+                        break;
+                    case 60:
+                        stringTenthResult = "шестьдесят";
+                        break;
+                    case 70:
+                        stringTenthResult = "семьдесят";
+                        break;
+                    case 80:
+                        stringTenthResult = "восемдесят";
+                        break;
+                    case 90:
+                        stringTenthResult = "девяносто";
+                        break;
+                    default:
+                        stringTenthResult = null;
+                        break;
+                }
+                stringResult = stringTenthResult + " " + stringOnesResult;
             }
             return stringResult;
         }
