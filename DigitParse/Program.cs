@@ -8,9 +8,11 @@ namespace DigitParse
 {
     class Program
     {
+        static bool thouthandsBool = false;
+
         static void Main(string[] args)
         {
-            string text=Console.ReadLine();
+            string text = Console.ReadLine();
             double digit = double.Parse(text);
             double digitstart = Math.Truncate(digit);
             double tenth = Math.Round(digit % digitstart, 2);
@@ -32,8 +34,13 @@ namespace DigitParse
             Console.WriteLine($"This tensString: {handredsString}");
 
             digitstart = (digitstart - hundreds) / 10;
-            double thouthands = digitstart % 10;
+            double thouthands = digitstart % 100;
+            thouthandsBool = true;
             thouthandsString = thouthandsWord(thouthands) + " " + handredsString;
+
+            thouthands = digitstart % 100;
+            thouthandsString = tensStringParse(thouthands) + " " + thouthandsString;
+
             Console.WriteLine(thouthandsString);
             Console.ReadKey();
         }
@@ -76,13 +83,56 @@ namespace DigitParse
             }
             return stringResult;
         }
+        static string onesStringThouthandsParse(double toParse)
+        {
+            string stringResult = null;
+            switch (toParse)
+            {
+                case 1:
+                    stringResult = "одна";
+                    break;
+                case 2:
+                    stringResult = "две";
+                    break;
+                case 3:
+                    stringResult = "три";
+                    break;
+                case 4:
+                    stringResult = "четыре";
+                    break;
+                case 5:
+                    stringResult = "пять";
+                    break;
+                case 6:
+                    stringResult = "шесть";
+                    break;
+                case 7:
+                    stringResult = "семь";
+                    break;
+                case 8:
+                    stringResult = "восемь";
+                    break;
+                case 9:
+                    stringResult = "девять";
+                    break;
+                default:
+                    stringResult = null;
+                    break;
+            }
+            return stringResult;
+        }
         static string tensStringParse(double toParse)
         {
             string stringResult = null;
             string stringTenthResult = null;
             string stringOnesResult = null;
             if (toParse < 10)
-                stringResult = onesStringParse(toParse);
+            {
+                if (thouthandsBool)
+                    stringResult = onesStringThouthandsParse(toParse);
+                else
+                    stringResult = onesStringParse(toParse);
+            }
             else
                 if (toParse < 20)
             {
@@ -130,7 +180,10 @@ namespace DigitParse
             {
                 double ones = toParse % 10;
                 double tens = (toParse - ones);
-                stringOnesResult = onesStringParse(ones);
+                if (thouthandsBool)
+                    stringOnesResult = onesStringThouthandsParse(ones);
+                else
+                    stringOnesResult = onesStringParse(ones);
                 switch (tens)
                 {
                     case 20:
@@ -208,10 +261,12 @@ namespace DigitParse
             string stringResult = null;
             switch (toParse)
             {
-                case 1: 
+                case 1:
                     stringResult = "тысяча";
                     break;
-                case 2:case 3: case 4:
+                case 2:
+                case 3:
+                case 4:
                     stringResult = "тысячи";
                     break;
                 default:
