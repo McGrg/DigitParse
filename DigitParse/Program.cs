@@ -17,11 +17,24 @@ namespace DigitParse
             Console.WriteLine("{0} and {1}", digitstart, tenth);
             double tens = digitstart % 100;
             Console.WriteLine($"This tens: {tens}");
-            string onesString = null;
             string tensString = null;
             string handredsString = null;
+            string thouthandsString = null;
             tensString = tensStringParse(tens);
-            Console.WriteLine($"This tensString: {tensString}; This onesString: {onesString}");
+
+            Console.WriteLine($"This tensString: {tensString}");
+            Console.WriteLine(digitstart);
+
+            digitstart = (digitstart - tens) / 100;
+            double hundreds = digitstart % 10;
+
+            handredsString = handredsStringParse(hundreds) + " " + tensString;
+            Console.WriteLine($"This tensString: {handredsString}");
+
+            digitstart = (digitstart - hundreds) / 10;
+            double thouthands = digitstart % 10;
+            thouthandsString = thouthandsWord(thouthands) + " " + handredsString;
+            Console.WriteLine(thouthandsString);
             Console.ReadKey();
         }
 
@@ -139,7 +152,7 @@ namespace DigitParse
                         stringTenthResult = "семьдесят";
                         break;
                     case 80:
-                        stringTenthResult = "восемдесят";
+                        stringTenthResult = "восемьдесят";
                         break;
                     case 90:
                         stringTenthResult = "девяносто";
@@ -149,6 +162,61 @@ namespace DigitParse
                         break;
                 }
                 stringResult = stringTenthResult + " " + stringOnesResult;
+            }
+            return stringResult;
+        }
+        static string handredsStringParse(double toParse)
+        {
+            string stringResult = null;
+            switch (toParse)
+            {
+                case 1:
+                    stringResult = "сто";
+                    break;
+                case 2:
+                    stringResult = "двести";
+                    break;
+                case 3:
+                    stringResult = "триста";
+                    break;
+                case 4:
+                    stringResult = "четыреста";
+                    break;
+                case 5:
+                    stringResult = "пятьсот";
+                    break;
+                case 6:
+                    stringResult = "шестьсот";
+                    break;
+                case 7:
+                    stringResult = "семьсот";
+                    break;
+                case 8:
+                    stringResult = "восемьсот";
+                    break;
+                case 9:
+                    stringResult = "девятьсот";
+                    break;
+                default:
+                    stringResult = null;
+                    break;
+            }
+            return stringResult;
+        }
+        static string thouthandsWord(double toParse)
+        {
+            string stringResult = null;
+            switch (toParse)
+            {
+                case 1: 
+                    stringResult = "тысяча";
+                    break;
+                case 2:case 3: case 4:
+                    stringResult = "тысячи";
+                    break;
+                default:
+                    stringResult = "тысяч";
+                    break;
             }
             return stringResult;
         }
