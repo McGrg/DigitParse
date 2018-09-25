@@ -9,6 +9,7 @@ namespace DigitParse
     class Program
     {
         static bool thouthandsBool = false;
+        static bool millionsBool = false;
 
         static void Main(string[] args)
         {
@@ -22,6 +23,8 @@ namespace DigitParse
             string tensString = null;
             string handredsString = null;
             string thouthandsString = null;
+            string hundredThouthandstring = null;
+            string millionsString = null;
             tensString = tensStringParse(tens);
 
             Console.WriteLine($"This tensString: {tensString}");
@@ -36,12 +39,21 @@ namespace DigitParse
             digitstart = (digitstart - hundreds) / 10;
             double thouthands = digitstart % 100;
             thouthandsBool = true;
-            thouthandsString = thouthandsWord(thouthands) + " " + handredsString;
+            thouthandsString = tensStringParse(thouthands)+ " " + thouthandsWord(thouthands) + " " + handredsString;
 
-            thouthands = digitstart % 100;
-            thouthandsString = tensStringParse(thouthands) + " " + thouthandsString;
+            digitstart = (digitstart - thouthands) / 100;
+            double hundredsThouthands = digitstart % 10;
+            Console.WriteLine($"This handredThouthand: {hundredsThouthands}");
 
-            Console.WriteLine(thouthandsString);
+            hundredThouthandstring = handredsStringParse(hundredsThouthands) + " " + thouthandsString;
+            Console.WriteLine($"This tensString: {hundredThouthandstring}");
+
+            digitstart = (digitstart - hundredsThouthands) / 10;
+            double millions = digitstart % 100;
+            millionsBool = true;
+            millionsString = tensStringParse(millions) + " " + millionsWord(millions) + " " + hundredThouthandstring;
+            Console.WriteLine($"This millionsString: {millionsString}");
+
             Console.ReadKey();
         }
 
@@ -119,6 +131,7 @@ namespace DigitParse
                     stringResult = null;
                     break;
             }
+            thouthandsBool = false;
             return stringResult;
         }
         static string tensStringParse(double toParse)
@@ -256,22 +269,55 @@ namespace DigitParse
             }
             return stringResult;
         }
-        static string thouthandsWord(double toParse)
+        static string thouthandsWord(double toParse, string stringResult=null)
         {
-            string stringResult = null;
-            switch (toParse)
+            if (toParse < 20)
             {
-                case 1:
-                    stringResult = "тысяча";
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                    stringResult = "тысячи";
-                    break;
-                default:
-                    stringResult = "тысяч";
-                    break;
+                switch (toParse)
+                {
+                    case 1:
+                        stringResult = "тысяча";
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                        stringResult = "тысячи";
+                        break;
+                    default:
+                        stringResult = "тысяч";
+                        break;
+                }
+            }
+            else
+            {
+                toParse = toParse % 10;
+                stringResult = thouthandsWord(toParse, stringResult);
+            }
+            return stringResult;
+        }
+        static string millionsWord(double toParse, string stringResult = null)
+        {
+            if (toParse < 20)
+            {
+                switch (toParse)
+                {
+                    case 1:
+                        stringResult = "миллион";
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                        stringResult = "миллиона";
+                        break;
+                    default:
+                        stringResult = "миллионов";
+                        break;
+                }
+            }
+            else
+            {
+                toParse = toParse % 10;
+                stringResult = millionsWord(toParse, stringResult);
             }
             return stringResult;
         }
