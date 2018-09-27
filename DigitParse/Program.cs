@@ -14,7 +14,8 @@ namespace DigitParse
         {
             StringBuilder result = new StringBuilder();
             string text = Console.ReadLine();
-            double temp = double.Parse(text);
+
+            double.TryParse(text, out double temp);
 
             double digitstart = Math.Truncate(temp);
             result.Append(Math.Round(temp % digitstart, 2).ToString());
